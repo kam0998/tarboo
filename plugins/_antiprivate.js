@@ -12,7 +12,7 @@ export async function before(m, {conn, isAdmin, isBotAdmin, isOwner, isROwner}) 
   const chat = global.db.data.chats[m.chat];
   const bot = global.db.data.settings[this.user.jid] || {};
   if (bot.antiPrivate && !isOwner && !isROwner) {
-    await m.reply('ممنوع مراسلة البوت خاص حتي لايتم تبنيد الرقم سيتم حظرك الان\n\nجروب الدعم لو حابب تستخدم البوت\nhttps://chat.whatsapp.com/CcQr4yKaYOL6R6608bDdKp', false, {mentions: [m.sender]});
+    await m.reply('ممنوع مراسلة البوت خاص حتي لايتم تبنيد الرقم سيتم حظرك الان\n\nجروب الدعم لو عايز تستخدم البوت\nhttps://chat.whatsapp.com/HEymhaMK6EfD4MRWj00juf', false, {mentions: [m.sender]});
     await this.updateBlockStatus(m.chat, 'block');
   }
   return !1;
