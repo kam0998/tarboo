@@ -3,7 +3,7 @@ if (!text) throw `*「✧|─────✦❯◇❮✦─────|✧」*\
 if (text.length < 10) throw `*〄↞┇❗تحذير البلاغ لا يقل عن عشرة احرف❗┇*`
 if (text.length > 1000) throw `*〄↞┇❗تحذير البلاغ لا يزيد عن الف حرف❗┇*`
 let teks = `*「✧|────✦❯◇❮✦────|✧」*\n*[إبلاغ مهم]*\n*┬*\n*├❧ الرقم:* wa.me/${m.sender.split`@`[0]}\n*┴*\n*┬*\n*├❧ البلاغ:* ${text}\n*┴*`
-conn.reply('201225655220@s.whatsapp.net', m.quoted ? teks + m.quoted.text : teks, null, { contextInfo: { mentionedJid: [m.sender] }})
+conn.reply('249111230420@s.whatsapp.net', m.quoted ? teks + m.quoted.text : teks, null, { contextInfo: { mentionedJid: [m.sender] }})
 conn.reply('@s.whatsapp.net', m.quoted ? teks + m.quoted.text : teks, null, { contextInfo: { mentionedJid: [m.sender] }})
 m.reply(`*✧━━ • ━ 「 ✤ 」 ━ • ━━✧*\n*〖تم إبلاغ المطور و انشاء الله يكون ف خدمتك في أسرع وقت〗*\n*✧━━ • ━ 「 ✤ 」 ━ • ━━✧*`)
 }
