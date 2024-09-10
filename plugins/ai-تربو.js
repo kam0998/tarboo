@@ -38,7 +38,7 @@ let handler = async (m, { text, conn, usedPrefix, command }) => {
   const randomImage = images[Math.floor(Math.random() * images.length)];
 
   if (!text && !(m.quoted && m.quoted.text)) {
-    await conn.sendButton(m.chat, `> *"مرحبًا! أنا ، مساعد الذكاء الاصطناعي يقدم خدمات تحليل الدردشة والنصوص لتعزيز تجربتك. أنا هنا لمساعدتك في أي استعلام في ذهنك."*`, author, randomImage, [['المطور', `${usedPrefix}المطور`]], null, [['قناة البوت', `https://whatsapp.com/channel/0029VagKvPX4dTnNxfbTnR45`]], m);
+    await conn.sendButton(m.chat, `> *"مرحبًا! أنا ، مساعد الذكاء الاصطناعي يقدم خدمات تحليل الدردشة والنصوص لتعزيز تجربتك. أنا هنا لمساعدتك في أي استعلام في ذهنك."*`, author, randomImage, [['المطور', `${usedPrefix}المطور`]], null, [['قناة البوت', `https://whatsapp.com/channel/0029Vaich7vLdQeUgMMBPc13`]], m);
     return;
   }
 
@@ -67,7 +67,7 @@ let handler = async (m, { text, conn, usedPrefix, command }) => {
       let translatedResult = await cleanAndTranslateToArabic(result);
 
       // عرض الرد مع الصورة والأزرار
-      await conn.sendButton(m.chat, `*${translatedResult}*`, author, randomImage, [['المطور', `${usedPrefix}المطور`]], null, [['قناة البوت', `https://whatsapp.com/channel/0029VagKvPX4dTnNxfbTnR45`]], m);
+      await conn.sendButton(m.chat, `*${translatedResult}*`, author, randomImage, [['المطور', `${usedPrefix}المطور`]], null, [['قناة البوت', `https://whatsapp.com/channel/0029Vaich7vLdQeUgMMBPc13`]], m);
       m.react(done);
     } catch (error) {
       console.error('خطأ من API الأول:', error);
@@ -82,7 +82,7 @@ let handler = async (m, { text, conn, usedPrefix, command }) => {
       let translatedResult = await cleanAndTranslateToArabic(result);
 
       // عرض الرد مع الصورة والأزرار
-      await conn.sendButton(m.chat, `*${translatedResult}*`, author, randomImage, [['المطور', `.المطور`]], null, [['قناة البوت', `https://whatsapp.com/channel/0029VagKvPX4dTnNxfbTnR45`]], m);
+      await conn.sendButton(m.chat, `*${translatedResult}*`, author, randomImage, [['المطور', `.المطور`]], null, [['قناة البوت', `https://whatsapp.com/channel/0029Vaich7vLdQeUgMMBPc13`]], m);
       m.react(done);
     }
   } catch (error) {
