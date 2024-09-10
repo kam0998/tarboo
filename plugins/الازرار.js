@@ -44,9 +44,9 @@ await conn.sendMessage(m.chat, { text: '*جاري تحضير قائمة الاو
             message: {
                 interactiveMessage: {
                     body: {
-                        text: `> *✧────[ 𝑾𝑬𝑳𝑪𝑶𝑴𝑬 ]────╮*
+                        text: `> *✧────[ مرحبا ]────╮*
 > *┤ *مرحبا يا ${taguser}*
-> *┤ 🤴🏻 المطور: MOHAMMEDADEL*
+> *┤ 🤴🏻 المطور: MOHAMMED ADEL*
 > *┤ #️⃣ الرقم: wa.me/249111230420*
 > *┤ ✅ الاصدار: 1.2.0*
 > *┤ 🎳 البادئة: •*
@@ -58,7 +58,7 @@ await conn.sendMessage(m.chat, { text: '*جاري تحضير قائمة الاو
 > *┤ 🏆 *الـرتبة: ${role}*
 > *┤ 🎮 *الخبـرة: ${exp}* 
 > *┤ 💎 *الألـماس: ${diamond}* 
-> *┤ 🪙 *تربو كوينز: ${money}*
+> *┤ 🪙 *ميدو كوينز: ${money}*
 > *┤ 🎟️ *الرموز: ${joincount}*
 > *┤ 🌟 *الـبـرﯾـمـيـوم: ${user.premiumTime > 0 ? 'مـمـيز✅' : (isPrems ? 'مـمـيز ✅' : 'عـادي ❌') || ''}* 
 > *┤────────────···* 
@@ -165,7 +165,7 @@ await conn.sendMessage(m.chat, { text: '*جاري تحضير قائمة الاو
                             },
                             {
                                 name: "cta_url",
-                                buttonParamsJson: "{\"display_text\":\"『』GROUP《\",\"url\":\"https://chat.whatsapp.com/Gvj15Uocf6KDc2OUzgx06g\",\"merchant_url\":\"https://chat.whatsapp.com/Gvj15Uocf6KDc2OUzgx06g\"}"
+                                buttonParamsJson: "{\"display_text\":\"『』GROUP《\",\"url\":\"https://chat.whatsapp.com/HEymhaMK6EfD4MRWj00juf\",\"merchant_url\":\"https://chat.whatsapp.com/HEymhaMK6EfD4MRWj00juf\"}"
                             },
                             {
                                 name: "cta_url",
@@ -176,7 +176,7 @@ await conn.sendMessage(m.chat, { text: '*جاري تحضير قائمة الاو
                                 buttonParamsJson: JSON.stringify({
                                     display_text: "『』CHANNEL《",
                                     url: "https://chat.whatsapp.com/HEymhaMK6EfD4MRWj00juf",
-                                    merchant_url: "https://whatsapp.com/channel/0029Vaflefp4Y9ljqmqllP3a"
+                                    merchant_url: "https://chat.whatsapp.com/HEymhaMK6EfD4MRWj00juf"
                                 })
                             }
                         ]
