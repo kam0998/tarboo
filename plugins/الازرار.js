@@ -46,8 +46,8 @@ await conn.sendMessage(m.chat, { text: '*جاري تحضير قائمة الاو
                     body: {
                         text: `> *✧────[ 𝑾𝑬𝑳𝑪𝑶𝑴𝑬 ]────╮*
 > *┤ *مرحبا يا ${taguser}*
-> *┤ 🤴🏻 المطور: Mahmoud Mahmed*
-> *┤ #️⃣ الرقم: wa.me/201225655220*
+> *┤ 🤴🏻 المطور: MOHAMMEDADEL*
+> *┤ #️⃣ الرقم: wa.me/249111230420*
 > *┤ ✅ الاصدار: 1.2.0*
 > *┤ 🎳 البادئة: •*
 > *┤ 🧜🏽‍♂️ المستخدمين: ${rtotalreg}*  
@@ -175,7 +175,7 @@ await conn.sendMessage(m.chat, { text: '*جاري تحضير قائمة الاو
                                 name: "cta_url",
                                 buttonParamsJson: JSON.stringify({
                                     display_text: "『』CHANNEL《",
-                                    url: "https://whatsapp.com/channel/0029Vaflefp4Y9ljqmqllP3a",
+                                    url: "https://chat.whatsapp.com/HEymhaMK6EfD4MRWj00juf",
                                     merchant_url: "https://whatsapp.com/channel/0029Vaflefp4Y9ljqmqllP3a"
                                 })
                             }
