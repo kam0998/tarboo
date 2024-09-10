@@ -1,41 +1,69 @@
-let timeout = 60000
-let poin = 500
-let handler = async (m, { conn, command, usedPrefix }) => {
-    conn.tebakbendera = conn.tebakbendera || {}
-    let id = m.chat
-    if (id in conn.tebakbendera) {
-        conn.reply(m.chat, '❐┃لم يتم الاجابة علي السؤال بعد┃❌ ❯', conn.tebakbendera[id][0])
-        return
-    }
-    try {
-        let src = JSON.parse(fs.readFileSync(`./src/game/كوره.json`));
-        if (src.length === 0) throw "قائمة اللاعبين فارغة."
-        let json = src[Math.floor(Math.random() * src.length)]
-        let caption = `*· • • ━━ ⌝🐉⌞ ━━ • • ·*
-*${command.toUpperCase()}*
-*🜋↫╎السـؤال ✍🏻⇜『من الاعب ال بالصورة』*
-  *🜋↫╎الـوقـت⏳↞ ${(timeout / 1000).toFixed(2)} ┇*
-  *استخدم .انسحب للأنسحاب*
-  *🜋↫╎الـجـائزة💰↞ ${poin} نقاط┇*
-∞┇━━━ •🐉• ━━━┇∞
-*✠ ~تــ✍︎ــوقــيــع ↯:~*
-『𝑧ₑ𝑧ₒ_𝑏ₒ𝑡』
-     `.trim()
-        conn.tebakbendera[id] = [
-            await conn.sendFile(m.chat, json.img, '', caption, m),
-            json, poin,
-            setTimeout(() => {
-                if (conn.tebakbendera[id]) conn.reply(m.chat, `❮ ⌛┇انتهي الوقت┇⌛❯\n❐↞┇الاجـابـة✅↞ *${json.name}* ┇`, conn.tebakbendera[id][0])
-                delete conn.tebakbendera[id]
-            }, timeout)
-        ]
-    } catch (err) {
-        console.error(err)
-        conn.reply(m.chat, '❌ حدث خطأ أثناء تحميل السؤال. يرجى المحاولة مرة أخرى في وقت لاحق.', m)
-    }
-}
-handler.help = ['guessflag']
-handler.tags = ['game']
-handler.command = /^كوره/i
+import fs from 'fs';
+import axios from 'axios';
 
-export default handler 
+let timeout = 60000;
+let poin = 500;
+
+let handler = async (m, { conn, usedPrefix }) => {
+    conn.tekateki = conn.tekateki ? conn.tekateki : {};
+
+    let id = m.chat;
+    if (id in conn.tekateki) {
+        conn.reply(m.chat, `
+╮───────────────────────╭ـ
+│ *في سؤال لسه مجاوبتش عليه يا فاشل* ┃❌ ❯
+╯───────────────────────╰ـ`.trim(), conn.tekateki[id][0]);
+        throw false;
+    }
+
+    try {
+        const fileId = '1pOFDptzcYxRUnxM_91YeFr7T2fRsQXqO';
+        const url = `https://drive.google.com/uc?export=download&id=${fileId}`;
+        const res = await axios.get(url);
+
+        if (res.data && Array.isArray(res.data)) {
+            let tekateki = res.data;
+            let json = tekateki[Math.floor(Math.random() * tekateki.length)];
+            
+            let _clue = json.response;
+            let clue = _clue.replace(/[A-Za-z]/g, '_');
+            let img = json.image;
+            let answer = json.response;
+             let questions = json.question || 'من هو هذا اللاعب؟';
+             
+
+            let caption = `
+╮───────────────────────╭ـ
+│ ❓ *السـؤال : ${questions}*
+│ ⏳ *الـوقـت : ${(timeout / 1000).toFixed(2)}*
+│ 💰 *الـجـائـزة : ${poin} نقطه*
+│ 🏳️ *الانسـحاب : استخدم [انسحاب] للانسحاب من اللعبة*
+╯───────────────────────╰ـ`.trim();
+
+            conn.tekateki[id] = [
+                await conn.sendMessage(m.chat, { image: { url: img }, caption: caption }, { quoted: m }),
+                json, poin,
+                setTimeout(async () => {
+                    if (conn.tekateki[id]) await conn.reply(m.chat, `
+╮───────────────────────╭ـ
+│ ❎ *خلص الوقت وانت زي منت فاشل مجوبتش*
+│ ✅ *الاجابه هي : ${answer}*
+╯───────────────────────╰ـ`.trim(), conn.tekateki[id][0]);
+
+                    delete conn.tekateki[id];
+                }, timeout)
+            ];
+
+        } else {
+            console.error('The received data is not a valid JSON array.');
+        }
+    } catch (error) {
+        console.error('Error fetching data from Google Drive:', error);
+    }
+};
+
+handler.help = ['acertijo'];
+handler.tags = ['game'];
+handler.command = /^(كوره)$/i;
+
+export default handler;
