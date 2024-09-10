@@ -45,10 +45,10 @@ let handler = async (m, { conn, usedPrefix, command }) => {
     await new Promise(resolve => setTimeout(resolve, 1000));
     const img = './Menu.png';
     const str = `
-> *✧────[ 𝑾𝑬𝑳𝑪𝑶𝑴𝑬 ]────╮*
+> *✧────[ مرحبا ]────╮*
 > *┤ *مرحبا يا ${taguser}*
-> *┤ 🤴🏻 المطور: Mahmoud Mahmed*
-> *┤ #️⃣ الرقم: wa.me/201225655220*
+> *┤ 🤴🏻 المطور: MOHAMMED ADEL*
+> *┤ #️⃣ الرقم: wa.me/249111230420*
 > *┤ ✅ الاصدار: 1.2.0*
 > *┤ 🎳 البادئة: •*
 > *┤ 🧜🏽‍♂️ المستخدمين: ${rtotalreg}*  
@@ -82,7 +82,7 @@ let handler = async (m, { conn, usedPrefix, command }) => {
 │✯ ❯ .دين. 
 │✯ ❯ .لغز. 
 │✯ ❯ .لعبه. 
-✪┋𝐁𝐘┋❥ 𝐓𝐀𝐑𝐁𝐎𝐎☞𝐁𝐎𝐓 ┋✪
+✪┋𝐁𝐘┋❥ MIDI☞𝐁𝐎𝐓 ┋✪
 
 ⟣┈┈┈⟢〘❄〙⟣┈┈┈┈⟢
 `;
