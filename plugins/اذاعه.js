@@ -26,7 +26,7 @@ let handler = async (m, { conn, isROwner, text }) => {
                     degreesLongitude: 139.75270667105852,
                     accuracyInMeters: 0,
                     degreesClockwiseFromMagneticNorth: 2,
-                    caption: '––––––『 *إذاعة* 』––––––\n\n' + pesan + '\n\n*💌  هذا بيان رسمي من مالك البوت تربو*',
+                    caption: '––––––『 *إذاعة* 』––––––\n\n' + pesan + '\n\n*💌  هذا بيان رسمي من مالك البوت ميدو*',
                     sequenceNumber: 2,
                     timeOffset: 3,
                     contextInfo: m,
