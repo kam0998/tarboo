@@ -1,6 +1,6 @@
 let handler = async (m, { isPrems, conn }) => {
 let time = global.db.data.users[m.sender].lastcofre + 86400000 // 36000000 10 Horas //86400000 24 Horas
-if (new Date - global.db.data.users[m.sender].lastcofre < 86400000) throw `[❗تحذير❗] لقد اخذت مرتبك اليومي ب الفعل\nامامك من الوقت *${msToTime(time - new Date())}* انتظر حتي يمر الوقت يا نصاب🙂`
+if (new Date - global.db.data.users[m.sender].lastcofre < 86400000) throw `[❗تحذير❗] لقد اخذت مرتبك اليومي ب الفعل\nامامك من الوقت *${msToTime(time - new Date())}* انتظر حتي يمر الوقت  `
  
 let img = 'https://img.freepik.com/vector-gratis/cofre-monedas-oro-piedras-preciosas-cristales-trofeo_107791-7769.jpg?w=2000'
 let dia = Math.floor(Math.random() * 30)
@@ -15,12 +15,12 @@ let expp = Math.floor(Math.random() * 5000)
   
 let texto = `
 ╔══💎═💵═💰══⬣
-║-----{هديتك}-----
+║-----{راتب}-----
 ║┈┈┈┈┈┈┈┈┈┈┈┈┈
 ║➢ *${dia} الألماس* 💎
 ║➢ *${tok} العملات* 🪙
-║➢ *${mystic} نقاط*🎀 
-║➢ *${expp} اكسبي*🥇 
+║➢ *${mystic}  كوينز* 
+║➢ *${expp} اكسبي* 
 ╚═════════════════⬣`
 
 const fkontak = {
@@ -44,8 +44,8 @@ global.db.data.users[m.sender].lastcofre = new Date * 1
 }
 handler.help = ['daily']
 handler.tags = ['xp']
-handler.command = ['راتب', 'هديه', 'abrircofre', 'cofreabrir'] 
-handler.level = 0
+handler.command = ['راتب', 'cofre', 'abrircofre', 'cofreabrir'] 
+handler.level = 5
 export default handler
 
 function pickRandom(list) {
