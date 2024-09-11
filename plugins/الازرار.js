@@ -157,7 +157,7 @@ await conn.sendMessage(m.chat, { text: '*جاري تحضير قائمة الاو
                                         }
                                     ]
                                 }),
-                                messageParamsJson: 'TARBOO bot'
+                                messageParamsJson: 'MIDO bot'
                             },
                             {
                                 name: "quick_reply",
