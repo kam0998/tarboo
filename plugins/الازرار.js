@@ -44,7 +44,7 @@ await conn.sendMessage(m.chat, { text: '*جاري تحضير قائمة الاو
             message: {
                 interactiveMessage: {
                     body: {
-                        text: `> *✧────[ مرحبا ]────╮*
+                        text: `> *✧────[ 𝑾𝑬𝑳𝑪𝑶𝑴𝑬 ]────╮*
 > *┤ *مرحبا يا ${taguser}*
 > *┤ 🤴🏻 المطور: MOHAMMED ADEL*
 > *┤ #️⃣ الرقم: wa.me/249111230420*
@@ -69,7 +69,7 @@ await conn.sendMessage(m.chat, { text: '*جاري تحضير قائمة الاو
 > *┤────────────···*`
                     },
                     footer: {
-                        text: 'MIDO BOT'
+                        text: 'MIDO '
                     },
                     header: {
                         title: '',
@@ -81,11 +81,11 @@ await conn.sendMessage(m.chat, { text: '*جاري تحضير قائمة الاو
                             {
                                 name: 'single_select',
                                 buttonParamsJson: JSON.stringify({
-                                    title: '『』قائمة الاوامر 《',
+                                    title: '『』القائمة《',
                                     sections: [
                                         {
                                             title: '『』MENUS《',
-                                            highlight_label: 'المطور',
+                                            highlight_label: 'OWNER',
                                             rows: [
                                                 {
                                                     header: 'info',
@@ -165,18 +165,18 @@ await conn.sendMessage(m.chat, { text: '*جاري تحضير قائمة الاو
                             },
                             {
                                 name: "cta_url",
-                                buttonParamsJson: "{\"display_text\":\"『』القروب《\",\"url\":\"https://chat.whatsapp.com/HEymhaMK6EfD4MRWj00juf\",\"merchant_url\":\"https://chat.whatsapp.com/HEymhaMK6EfD4MRWj00juf\"}"
+                                buttonParamsJson: "{\"display_text\":\"『』قروبي《\",\"url\":\"https://chat.whatsapp.com/Gvj15Uocf6KDc2OUzgx06g\",\"merchant_url\":\"https://chat.whatsapp.com/Gvj15Uocf6KDc2OUzgx06g\"}"
                             },
                             {
                                 name: "cta_url",
-                                buttonParamsJson: "{\"display_text\":\"『』الموقع《\",\"url\":\"https://atom.bio/zyad_yasser\",\"merchant_url\":\"https://atom.bio/zyad_yasser\"}"
+                                buttonParamsJson: "{\"display_text\":\"『』موقعي《\",\"url\":\"https://atom.bio/zyad_yasser\",\"merchant_url\":\"https://atom.bio/zyad_yasser\"}"
                             },
                             {
                                 name: "cta_url",
                                 buttonParamsJson: JSON.stringify({
-                                    display_text: "『』قناة البوت《",
-                                    url: "https://chat.whatsapp.com/HEymhaMK6EfD4MRWj00juf",
-                                    merchant_url: "https://chat.whatsapp.com/HEymhaMK6EfD4MRWj00juf"
+                                    display_text: "『』قناتي《",
+                                    url: "https://whatsapp.com/channel/0029Vaich7vLdQeUgMMBPc13",
+                                    merchant_url: "https://chat.whatsapp.com/GwpVRwW4o8z11bctqm9n7Q"
                                 })
                             }
                         ]
