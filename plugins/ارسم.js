@@ -1,26 +1,32 @@
 import fetch from 'node-fetch';
 
+const endpointBase = 'https://cute-tan-gorilla-yoke.cyclic.app/imagine';
+
 let handler = async (m, { conn, text, usedPrefix, command }) => {
-  if (!text) throw `*يقوم هذا الأمر بإنشاء صور من المطالبات النصية*\n\n*مثال*\n*◉ ${usedPrefix + command} anime Sukuna*\n*◉ ${usedPrefix + command} anime cat*`;
+  if (!text) {
+    throw `*هذا الأمر يقوم بإنشاء صور بناءً على النصوص المقدمة.*\n\n*مثال*\n*◉ ${usedPrefix + command} anime Sukuna*\n*◉ ${usedPrefix + command} anime cat*`;
+  }
 
   try {
-    m.reply('*الرجاء الانتظار، جاري إنشاء الصور...*');
+    m.reply('*الرجاء الانتظار، جاري إنشاء الصورة...*');
 
-    const endpoint = `https://cute-tan-gorilla-yoke.cyclic.app/imagine?text=${encodeURIComponent(text)}`;
+    const endpoint = `${endpointBase}?text=${encodeURIComponent(text)}`;
     const response = await fetch(endpoint);
-    
+
     if (response.ok) {
       const imageBuffer = await response.buffer();
-      await conn.sendFile(m.chat, imageBuffer, 'image.png', null, m);
+      await conn.sendFile(m.chat, imageBuffer, 'image.png', 'تم إنشاء هذه الصورة بواسطة بوت ميدو:', m);
     } else {
-      throw '*فشل إنشاء الصورة*';
+      throw '*فشل في إنشاء الصورة، حاول مرة أخرى لاحقًا.*';
     }
-  } catch {
-    throw '*أُووبس!  حدث خطأ ما أثناء إنشاء الصور.  الرجاء معاودة المحاولة في وقت لاحق.*';
+  } catch (error) {
+    console.error(error);
+    throw '*أُووبس! حدث خطأ أثناء إنشاء الصورة. يرجى المحاولة لاحقًا.*';
   }
 };
 
 handler.help = ['dalle'];
 handler.tags = ['AI'];
 handler.command = ['dalle', 'ارسم', 'رسم', 'openai2'];
+
 export default handler;
