@@ -1,40 +1,50 @@
+// كود تم نشره بواسطه اوبيتو
+// تابع لقناه https://whatsapp.com/channel/0029VaSQX1TI1rcbxtQZ5518
 
-import fetch from 'node-fetch'
-import { mediafiredl } from '@bochilteam/scraper'
+import axios from 'axios';
+import fetch from 'node-fetch';
+import cheerio from 'cheerio';
+import {mediafiredl} from '@bochilteam/scraper';
 
-let handler = async (m, { conn, args, usedPrefix, command, isOwner, isPrems }) => {
-	var limit
-     if((isOwner || isPrems)) limit = 1200
-     else limit = 100
-   if (!args[0]) throw `*✳️ أدخـل الـرابــط بـجانـب الأمــر*`
-    if (!args[0].match(/mediafire/gi)) throw `❎ الرابط غير صحيح`
-    await conn.sendMessage(m.chat, { react: { text: '🤌🏻', key: m.key } })
+const handler = async (m, {conn, args, usedPrefix, command}) => {
+  if (!args[0]) throw `التحميل من منصة ميديافاير مثال:\n*mediafire2* https://www.mediafire.com/file/ttuenrfdra2onw1/SCRIP_BOT_jaga_grup_pairing.zip/`;
+  try {
+    const resEX = await mediafiredl(args[0]);
+    const captionES = `_*التحميل من ميديافاير*_\n
+▢ *الاسم:* ${resEX.filename}
+▢ *الحجم:* ${resEX.filesizeH}
+▢ *نوع الملف:* ${resEX.ext}\n\n
+*[ 🚩 ] جاري تحميل الملف...*`.trim();
+    m.reply(captionES);
+    await conn.sendFile(m.chat, resEX.url, resEX.filename, '', m, null, {mimetype: resEX.ext, asDocument: true});
+  } catch {
+    try {
+      const res = await mediafireDl(args[0]);
+      const {name, size, date, mime, link} = res;
+      const caption = `_*التحميل من ميديافاير*_\n
+▢ *اسم الملف:* ${name}
+▢ *حجمه:* ${size}
+▢ *نوعه:* ${mime}\n\n
+**[ 🚩 ] جاري تحميل الملف...*`.trim();
+      await m.reply(caption);
+      await conn.sendFile(m.chat, link, name, '', m, null, {mimetype: mime, asDocument: true});
+    } catch {
+      await m.reply('اعتذر لكن فشلنا في تنزيل ملفك ربما يكون الملف كبيرا او انه محذوف من المنصة ');
+    }
+  }
+};
+handler.command = /^ميديافاير$/i;
+export default handler;
 
-    let full = /f$/i.test(command)
-    let u = /https?:\/\//.test(args[0]) ? args[0] : 'https://' + args[0]
-    let ss = await (await fetch(`https://image.thum.io/get/fullpage/${u}`)).buffer()
-    let res = await mediafiredl(args[0])
-    let { url, url2, filename, ext, aploud, filesize, filesizeH } = res
-    let isLimit = (isPrems || isOwner ? limit : limit) * 1012 < filesize
-    let caption = `
-       ≡ *ميديافاير* ≡
-   
-   ▢ *الرقم:* ${filename}
-▢ *الحجم:* ${filesizeH}
-▢ *الامتداد:* ${ext}
-▢ *تم التحميل:* ${aploud}
-${isLimit ? `\n▢ الملف يتجاوز حد التنزيل *+${limit} ميغابايت*\nقم بالترقية إلى حساب بريميوم لتكون قادرًا على تنزيل ملفات أكبر من *900 ميغابايت*` : ''} 
-`.trim()
-    await conn.sendFile(m.chat, ss, 'ssweb.png', caption, m)
-    
-    if(!isLimit) await conn.sendFile(m.chat, url, filename, '', m, null, { mimetype: ext, asDocument: true })
-    await conn.sendMessage(m.chat, { react: { text: '✅', key: m.key } })
-
+async function mediafireDl(url) {
+  const res = await axios.get(`https://www-mediafire-com.translate.goog/${url.replace('https://www.mediafire.com/', '')}?_x_tr_sl=en&_x_tr_tl=fr&_x_tr_hl=en&_x_tr_pto=wapp`);
+  const $ = cheerio.load(res.data);
+  const link = $('#downloadButton').attr('href');
+  const name = $('body > main > div.content > div.center > div > div.dl-btn-cont > div.dl-btn-labelWrap > div.promoDownloadName.notranslate > div').attr('title').replaceAll(' ', '').replaceAll('\n', '');
+  const date = $('body > main > div.content > div.center > div > div.dl-info > ul > li:nth-child(2) > span').text();
+  const size = $('#downloadButton').text().replace('Download', '').replace('(', '').replace(')', '').replace('\n', '').replace('\n', '').replace('                         ', '').replaceAll(' ', '');
+  let mime = '';
+  const rese = await axios.head(link);
+  mime = rese.headers['content-type'];
+  return {name, size, date, mime, link};
 }
-handler.help = ['mediafire <url>']
-handler.tags = ['downloader', 'premium']
-handler.command = ['mediafire', 'ميديا-فاير','مديافاير','ميديافاير'] 
-handler.credit = true
-handler.premium = false
-
-export default handler
