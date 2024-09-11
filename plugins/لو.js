@@ -125,7 +125,7 @@ let msg = generateWAMessageFromContent(m.chat, {
             text: `*${randomImage}*\n*⊱─═⪨༻𓆩⚡𓆪༺⪩═─⊰*`
           }),
           footer: proto.Message.InteractiveMessage.Footer.create({
-            text: "𝙱𝙾𝚃 𝙴𝙻 𝚃𝙰𝚁𝙱𝙾𝙾"
+            text: "𝙱𝙾𝚃 𝙴𝙻 MIDO"
           }),
           header: proto.Message.InteractiveMessage.Header.create({
             title: "*⊱⪨༻𓆩〘💗 لـو خيروك 💗〙𓆪༺⪩⊰*",
