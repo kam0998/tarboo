@@ -57,6 +57,7 @@
     "fs": "^0.0.1-security",
     "google-it": "^1.6.3",
     "googleapis": "^126.0.1",
+    "@whiskeysockets/baileys":"*", 
     "got": "^13.0.0",
     "hispamemes": "^1.0.7",
     "human-readable": "^0.2.1",
