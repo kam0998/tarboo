@@ -1,31 +1,37 @@
-import similarity from 'similarity'
-const threshold = 0.72
-export async function before(m) {
+import fetch from 'node-fetch'
+let timeout = 60000
+let poin = 4999
+let handler = async (m, { conn, command, usedPrefix }) => {
+    conn.tebakbendera = conn.tebakbendera ? conn.tebakbendera : {}
     let id = m.chat
-    if (!m.quoted || !m.quoted.fromMe || !m.quoted.isBaileys || !m.text || !/استخدم.*انسحب/i.test(m.quoted.text) || /.*hhint/i.test(m.text))
-        return !0
-    this.tebakbendera = this.tebakbendera ? this.tebakbendera : {}
-    if (!(id in this.tebakbendera))
-        return this.reply(m.chat, '*لقد انتهي هذا السؤال اكتب علم لتظهر أسأله جديده*', m)
-    if (m.quoted.id == this.tebakbendera[id][0].id) {
-        let isSurrender = /^(انسحب|surr?ender)$/i.test(m.text)
-        if (isSurrender) {
-            clearTimeout(this.tebakbendera[id][3])
-            delete this.tebakbendera[id]
-            return this.reply(m.chat, '*طلع فاشل و استسلم :( !*', m)
-        }
-        let json = JSON.parse(JSON.stringify(this.tebakbendera[id][1]))
-        
-        if (m.text.toLowerCase() == json.name.toLowerCase().trim()) {
-            global.db.data.users[m.sender].exp += this.tebakbendera[id][2]
-            this.reply(m.chat, `*❐┃اجـابـة صـحـيـحـة┃✅ ❯*\n\n*❐↞┇الـجـائـزة💰↞${this.tebakbendera[id][2]} نقطه*`, m)
-            clearTimeout(this.tebakbendera[id][3])
-            delete this.tebakbendera[id]
-        } else if (similarity(m.text.toLowerCase(), json.name.toLowerCase().trim()) >= threshold)
-            m.reply(`*لقد كنت علي وشك النجاح*!`)
-        else
-            this.reply(m.chat, `❐┃اجـابـة خـاطـئـة┃❌ ❯`, m)
+    if (id in conn.tebakbendera) {
+        conn.reply(m.chat, '*جاوب علي السؤال السابق اولا*', conn.tebakbendera[id][0])
+        throw false
     }
-    return !0
+    let src = await (await fetch('https://gist.githubusercontent.com/Kyutaka101/799d5646ceed992bf862026847473852/raw/dcbecff259b1d94615d7c48079ed1396ed42ef67/gistfile1.txt')).json()
+  let json = src[Math.floor(Math.random() * src.length)]
+    let caption = `
+*⟣┈┈┈┈┈┈⟢┈┈┈⟣┈┈┈┈┈┈┈⟢*
+*⌬ ❛╏ ${command.toUpperCase()}*
+*⟣┈┈┈┈┈┈⟢┈┈┈⟣┈┈┈┈┈┈┈⟢*
+*الوقت* *${(timeout / 1000).toFixed(2)} ثانيه*
+*استخدم انسحب للانسحاب*
+*الجائزه: ${poin} XP*
+*⟣┈┈┈┈┈┈⟢┈┈┈⟣┈┈┈┈┈┈┈⟢*
+   *⌬ ❛╏ by: ᴍɪᴅᴏ ʙᴏᴛ*
+*⟣┈┈┈┈┈┈⟢┈┈┈⟣┈┈┈┈┈┈┈⟢*
+    `.trim()
+    conn.tebakbendera[id] = [
+        await conn.sendFile(m.chat, json.img, '', caption, m),
+        json, poin,
+        setTimeout(() => {
+            if (conn.tebakbendera[id]) conn.reply(m.chat, `*انتهي الوقت!*\n*الاجابه هيا* *${json.name}*`, conn.tebakbendera[id][0])
+            delete conn.tebakbendera[id]
+        }, timeout)
+    ]
 }
-export const exp = 0
+handler.help = ['guessflag']
+handler.tags = ['game']
+handler.command = /^guessflag|علم/i
+
+export default handler
