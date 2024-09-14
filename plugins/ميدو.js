@@ -1,5 +1,5 @@
 const handler = async (m, { conn }) => {
-  let messageText = m.text.toLowerCase().replace(/\./g, '');
+  let messageText = m.text.toLowerCase();
 
   if (messageText.includes('ميدو') || messageText.includes('mido')) {
     const emojis = [
@@ -20,7 +20,10 @@ const handler = async (m, { conn }) => {
     
     let audioPath = './voice-man.mp3'; 
     
-    await conn.sendMessage(m.chat, { audio: { url: audioPath }, mimetype: 'audio/mp4' }, { quoted: m });
+    await conn.sendMessage(m.chat, { 
+      audio: { url: audioPath }, 
+      mimetype: 'audio/mp3'
+    }, { quoted: m });
   }
 };
 
