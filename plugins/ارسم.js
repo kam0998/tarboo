@@ -1,32 +1,22 @@
 import fetch from 'node-fetch';
 
-const endpointBase = 'https://cute-tan-gorilla-yoke.cyclic.app/imagine';
-
-let handler = async (m, { conn, text, usedPrefix, command }) => {
-  if (!text) {
-    throw `*هذا الأمر يقوم بإنشاء صور بناءً على النصوص المقدمة.*\n\n*مثال*\n*◉ ${usedPrefix + command} anime Sukuna*\n*◉ ${usedPrefix + command} anime cat*`;
-  }
-
-  try {
-    m.reply('*الرجاء الانتظار، جاري إنشاء الصورة...*');
-
-    const endpoint = `${endpointBase}?text=${encodeURIComponent(text)}`;
-    const response = await fetch(endpoint);
-
-    if (response.ok) {
-      const imageBuffer = await response.buffer();
-      await conn.sendFile(m.chat, imageBuffer, 'image.png', 'تم إنشاء هذه الصورة بواسطة بوت ميدو:', m);
-    } else {
-      throw '*فشل في إنشاء الصورة، حاول مرة أخرى لاحقًا.*';
+const handler = async (m, {conn, text, usedPrefix, command}) => {
+    if (!text) throw `يرجى إدخال نص لإنشاء صورة باستخدام DALL-E (الذكاء الاصطناعي)\n\nمثال:\nɞ ${usedPrefix + command} قطط تبكي\nɞ ${usedPrefix + command} قطة باللون البنفسجي مع الأزرق على كوكب المشتري، تضيء الكون بسحرها مع تأثير بسيط.`;
+    
+    await conn.sendMessage(m.chat, {text: '⌛ يرجى الانتظار لحظة...'}, {quoted: m});
+    
+    try {
+        const response = await fetch(`https://api-xovvip.vercel.app/text2img?text=${encodeURIComponent(text)}`);
+        if (!response.ok) throw new Error('حدث خطأ في الشبكة');
+        
+        const buffer = await response.buffer();
+        
+        await conn.sendMessage(m.chat, {image: buffer}, {quoted: m});
+    } catch {
+        throw 'خطأ، (API غير متاحة) يرجى المحاولة لاحقاً.';
     }
-  } catch (error) {
-    console.error(error);
-    throw '*أُووبس! حدث خطأ أثناء إنشاء الصورة. يرجى المحاولة لاحقًا.*';
-  }
-};
+}
 
-handler.help = ['dalle'];
-handler.tags = ['AI'];
-handler.command = ['dalle', 'ارسم', 'رسم', 'openai2'];
-
+handler.help = ['ارسم'];
+handler.command = ['ارسم'];
 export default handler;
