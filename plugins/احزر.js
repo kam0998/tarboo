@@ -1,44 +1,68 @@
-const handler = async (m, { conn }) => {
-    let animeVoices = [
-        { name: 'ناروتو', file: './voices/naruto.mp3' }, 
-        { name: 'لوفي', file: './voices/luffy.mp3' },
-        { name: 'ايتاشي', file: './voices/itachi.mp3' },
-        { name: 'ساسكي', file: './voices/sasuke.mp3' },
-        { name: 'زورو', file: './voices/zoro.mp3' },
-        { name: 'غوكو', file: './voices/goku.mp3' },
-        { name: 'فيجيتا', file: './voices/vegeta.mp3' },
-        { name: 'كاكاشي', file: './voices/kakashi.mp3' },
-        { name: 'ليفي', file: './voices/levi.mp3' },
-        { name: 'إدوارد إلريك', file: './voices/edward.mp3' },
-        { name: 'تانجيرو', file: './voices/tanjiro.mp3' },
-        { name: 'ديكو', file: './voices/deku.mp3' },
-        { name: 'إرين', file: './voices/eren.mp3' },
-        { name: 'كيلوا', file: './voices/killua.mp3' },
-        { name: 'غون', file: './voices/gon.mp3' }
-    ];
+import fs from 'fs';
+import axios from 'axios';
 
-    let modifiedText = m.text.replace(/احزر/gi, 'احزر ⚡');
-    await conn.sendMessage(m.chat, { text: modifiedText }, { quoted: m });
+let timeout = 60000;
+let poin = 500;
 
-    let randomVoice = animeVoices[Math.floor(Math.random() * animeVoices.length)];
+let handler = async (m, { conn, usedPrefix }) => {
+    conn.tekateki = conn.tekateki ? conn.tekateki : {};
 
-    let messageText = `
-❓ *السؤال: من صاحب هذا الصوت؟*
-⏳ *الوقت: 60 ثانية*
-💰 *الجائزة: 600 نقطة*
-📝 *حقوق: ميدو*
-    `;
-    
-    await conn.sendMessage(m.chat, { text: messageText }, { quoted: m });
-    await conn.sendMessage(m.chat, { audio: { url: randomVoice.file }, mimetype: 'audio/mp4' }, { quoted: m });
+    let id = m.chat;
+    if (id in conn.tekateki) {
+        conn.reply(m.chat, `
+╮───────────────────────╭ـ
+│ *في سؤال لسه مجاوبتش عليه يا فاشل* ┃❌ ❯
+╯───────────────────────╰ـ`.trim(), conn.tekateki[id][0]);
+        throw false;
+    }
 
-    setTimeout(async () => {
-        await conn.sendMessage(m.chat, {
-            text: `⏰ انتهى الوقت! صاحب الصوت هو: ${randomVoice.name}.\n📝 *حقوق: ميدو*`,
-        }, { quoted: m });
-    }, 60000);
+    try {
+        const fileId = '1ixuyJ2tiYnnlNyRWeSZ4ZkViLFb4EPeF';
+        const url = `https://drive.google.com/uc?export=download&id=${fileId}`;
+        const res = await axios.get(url);
+
+        if (res.data && Array.isArray(res.data)) {
+            let tekateki = res.data;
+            let json = tekateki[Math.floor(Math.random() * tekateki.length)];
+            
+            let _clue = json.response;
+            let clue = _clue.replace(/[A-Za-z]/g, '_');
+            let img = json.image || 'https://telegra.ph/file/034daa6dcfb2270d7ff1c.jpg';
+            let answer = json.response;
+            let questions = json.question || 'من هو هذا ؟';
+             
+            let caption = `
+╮───────────────────────╭ـ
+│ ❓ *السـؤال : ${questions}*
+│ ⏳ *الـوقـت : ${(timeout / 1000).toFixed(2)}*
+│ 💰 *الـجـائـزة : ${poin} نقطه*
+│ 🏳️ *الانسـحاب : استخدم [انسحاب] للانسحاب من اللعبة*
+╯───────────────────────╰ـ`.trim();
+
+            conn.tekateki[id] = [
+                await conn.sendMessage(m.chat, { image: { url: img }, caption: caption }, { quoted: m }),
+                json, poin,
+                setTimeout(async () => {
+                    if (conn.tekateki[id]) await conn.reply(m.chat, `
+╮───────────────────────╭ـ
+│ ❎ *خلص الوقت وانت زي منت فاشل مجوبتش*
+│ ✅ *الاجابه هي : ${answer}*
+╯───────────────────────╰ـ`.trim(), conn.tekateki[id][0]);
+
+                    delete conn.tekateki[id];
+                }, timeout)
+            ];
+
+        } else {
+            console.error('The received data is not a valid JSON array.');
+        }
+    } catch (error) {
+        console.error('Error fetching data from Google Drive:', error);
+    }
 };
 
-handler.command = /^احزر$/i;
+handler.help = ['احزر'];
+handler.tags = ['game'];
+handler.command = /^(احزر)$/i;
 
 export default handler;
