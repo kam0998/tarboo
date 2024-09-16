@@ -1,31 +1,44 @@
-let timeout = 60000
-let poin = 500
-let handler = async (m, { conn, command, usedPrefix }) => {
-    conn.tebakbendera = conn.tebakbendera ? conn.tebakbendera : {}
-    let id = m.chat
-    if (id in conn.tebakbendera) {
-        conn.reply(m.chat, '❐┃لم يتم الاجابة علي السؤال بعد┃❌ ❯', conn.tebakbendera[id][0])
-        throw false
-    }
-    let src = await (await fetch('https://raw.githubusercontent.com/yayuii/Fa3aliya/main/JOHAN.json')).json()
-  let json = src[Math.floor(Math.random() * src.length)]
-    let caption = `*${command.toUpperCase()}*
-  ❐↞┇الـوقـت⏳↞ *${(timeout / 1000).toFixed(2)} ┇
-  *استخدم .انسحب للأنسحاب*
-  ❐↞┇الـجـائـزة💰↞ ${poin} نقاط┇
-🌺MIDO-BOT🌺
-     `.trim()
-    conn.tebakbendera[id] = [
-        await conn.sendFile(m.chat, json.img, '', caption, m),
-        json, poin,
-        setTimeout(() => {
-            if (conn.tebakbendera[id]) conn.reply(m.chat, `❮ ⌛┇انتهي الوقت┇⌛❯\n❐↞┇الاجـابـة✅↞ ${json.name}*┇`, conn.tebakbendera[id][0])
-            delete conn.tebakbendera[id]
-        }, timeout)
-    ]
-}
-handler.help = ['guessflag']
-handler.tags = ['game']
-handler.command = /^احزر/i
+const handler = async (m, { conn }) => {
+    let animeVoices = [
+        { name: 'ناروتو', file: './voices/naruto.mp3' }, 
+        { name: 'لوفي', file: './voices/luffy.mp3' },
+        { name: 'ايتاشي', file: './voices/itachi.mp3' },
+        { name: 'ساسكي', file: './voices/sasuke.mp3' },
+        { name: 'زورو', file: './voices/zoro.mp3' },
+        { name: 'غوكو', file: './voices/goku.mp3' },
+        { name: 'فيجيتا', file: './voices/vegeta.mp3' },
+        { name: 'كاكاشي', file: './voices/kakashi.mp3' },
+        { name: 'ليفي', file: './voices/levi.mp3' },
+        { name: 'إدوارد إلريك', file: './voices/edward.mp3' },
+        { name: 'تانجيرو', file: './voices/tanjiro.mp3' },
+        { name: 'ديكو', file: './voices/deku.mp3' },
+        { name: 'إرين', file: './voices/eren.mp3' },
+        { name: 'كيلوا', file: './voices/killua.mp3' },
+        { name: 'غون', file: './voices/gon.mp3' }
+    ];
 
-export default handler
+    let modifiedText = m.text.replace(/احزر/gi, 'احزر ⚡');
+    await conn.sendMessage(m.chat, { text: modifiedText }, { quoted: m });
+
+    let randomVoice = animeVoices[Math.floor(Math.random() * animeVoices.length)];
+
+    let messageText = `
+❓ *السؤال: من صاحب هذا الصوت؟*
+⏳ *الوقت: 60 ثانية*
+💰 *الجائزة: 600 نقطة*
+📝 *حقوق: ميدو*
+    `;
+    
+    await conn.sendMessage(m.chat, { text: messageText }, { quoted: m });
+    await conn.sendMessage(m.chat, { audio: { url: randomVoice.file }, mimetype: 'audio/mp4' }, { quoted: m });
+
+    setTimeout(async () => {
+        await conn.sendMessage(m.chat, {
+            text: `⏰ انتهى الوقت! صاحب الصوت هو: ${randomVoice.name}.\n📝 *حقوق: ميدو*`,
+        }, { quoted: m });
+    }, 60000);
+};
+
+handler.command = /^احزر$/i;
+
+export default handler;
