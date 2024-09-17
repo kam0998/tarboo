@@ -1,17 +1,30 @@
-import { toAudio } from '../lib/converter.js'
+/*
+`كود التحويل لصوت :`
+بواسطة :
+- زيزو
+- شعوذة
+*/
 
-let handler = async (m, { conn, usedPrefix, command }) => {
+
+import uploadFile from '../lib/uploadFile.js'
+import uploadImage from '../lib/uploadImage.js'
+
+let handler = async (m) => {
     let q = m.quoted ? m.quoted : m
-    let mime = (m.quoted ? m.quoted : m.msg).mimetype || ''
-    if (!/video|audio/.test(mime)) throw `*✳️ قم بالرد علي فيديو لتحويله لصوت*`
-    let media = await q.download?.()
-    if (!media) throw '❎ فشل تحميل الوسائط'
-    let audio = await toAudio(media, 'mp4')
-    if (!audio.data) throw '❎ حدث خطأ أثناء التحويل'
-    conn.sendFile(m.chat, audio.data, 'audio.mp3', '', m, null, { mimetype: 'audio/mp4' })
+    let mime = (q.msg || q).mimetype || ''
+    if (!mime) throw '*اعمل ريبلي للفيديو او الريك اللي عاوز تحولو لصوت ي حوب 🧞‍♂️*'
+    
+    let media = await q.download()
+    let isAudio = /audio/.test(mime) // تحقق من نوع الصوت
+    let isVideo = /video/.test(mime) // تحقق من نوع الفيديو
+    let link = await (isAudio ? uploadFile : uploadImage)(media)
+    
+    // إرسال الرد بصيغة MP3 كرسالة نصية
+    conn.sendMessage(m.chat, {audio: {url: link}, mimetype: 'audio/mpeg', fileName: `shawaza_zizo_2024.mp3`}, {quoted: m});
 }
-handler.help = ['tomp3']
-handler.tags = ['fun']
-handler.command = /^(لصوت|لفويس|tomp3)$/i
+
+handler.help = ['sendmp3 <reply video>', 'sendmp3 <reply audio>']
+handler.tags = ['convert'] 
+handler.command = /^(لصوتي)$/i
 
 export default handler
